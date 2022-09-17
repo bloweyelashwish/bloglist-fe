@@ -1,18 +1,21 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Blog from './components/Blog'
-import { getAll, create, update, setToken } from './services/blogs'
+import { getAll, create, setToken } from './services/blogs'
 import { login } from "./services/login";
 import LoginForm from "./components/LoginForm";
 import BlogForm from "./components/BlogForm";
 import Notification from "./components/Notification";
 import Togglable from "./components/Togglable";
+import blogForm from "./components/BlogForm";
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
+    const blogFormRef = useRef()
     const [notification, setNotification] = useState({ message: '', type: '' })
+
 
     const clearNotification = () => {
         setTimeout(() => setNotification({ message: '', type: '' }), 5000)
@@ -23,7 +26,6 @@ const App = () => {
     console.log('logging in with', username, password)
     try {
         const user = await login({ username, password })
-
         window.localStorage.setItem('loggedBlogAppUser', JSON.stringify(user))
         setToken(user.token)
         setUser(user)
@@ -43,14 +45,13 @@ const App = () => {
   }
 
   const handleBlogCreation = async (blog) => {
-    console.log(blog)
       try {
+          blogFormRef.current.toggleVisibility()
           const newBlog = await create(blog)
           setBlogs(blogs.concat(newBlog))
           setNotification({ message: `${newBlog.title} is added to the list`, type: 'success'})
-          const clearNotification = () => {
-              setTimeout(() => setNotification({ message: '', type: '' }), 5000)
-          }
+          clearNotification()
+
       } catch {
           setNotification({ message: `Error`, type: 'error'})
           clearNotification()
@@ -80,7 +81,7 @@ const App = () => {
                 <h3>{user.name} is logged in <button onClick={handleLogout}>log out</button></h3>
                 <Notification notification={notification}/>
                 <hr/>
-                <Togglable buttonLabel='new note'>
+                <Togglable buttonLabel='new note' ref={blogFormRef}>
                     <BlogForm
                         onSubmit={handleBlogCreation}
                     />
