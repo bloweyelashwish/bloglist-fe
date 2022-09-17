@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import Blog from './components/Blog'
-import { getAll, create, update, setToken } from './services/blogs'
+import { getAll, create, update, setToken, remove } from './services/blogs'
 import { login } from "./services/login";
 import LoginForm from "./components/LoginForm";
 import BlogForm from "./components/BlogForm";
@@ -69,6 +69,21 @@ const App = () => {
       }
   }
 
+  const removeBlog = async (blog) => {
+      const confirmation = window.confirm(`Remove blog ${blog.title} by ${blog.author}?`)
+      if (!confirmation) {
+          return
+      }
+
+      try {
+          const response = await remove(blog.id)
+          setBlogs(blogs.filter(b => b.id !== blog.id))
+          setNotification({ message: `Blog was removed`, type: 'success' })
+      } catch {
+          setNotification({ message: `Blog could not be removed`, type: 'error' })
+      }
+  }
+
   useEffect(() => {
     getAll().then(blogs =>
       setBlogs( blogs )
@@ -100,11 +115,8 @@ const App = () => {
                 <hr/>
                 {blogs
                     .sort((a, b) => b.likes - a.likes)
-                    .map(blog => <Blog key={blog.id} blog={blog} updateBlog={updateBlog} />)
+                    .map(blog => <Blog key={blog.id} blog={blog} updateBlog={updateBlog} removeBlog={removeBlog}/>)
                 }
-                {/*{blogs.map(blog =>*/}
-                {/*    <Blog key={blog.id} blog={blog} updateBlog={updateBlog} />*/}
-                {/*)}*/}
             </div>
         )
     }
