@@ -1,6 +1,7 @@
-const loginForm = ({ username, password, onSubmit, setUsername, setPassword }) => {
+const LoginForm = ({ username, password, onSubmit, setUsername, setPassword }) => {
     return (
         <>
+            <h1>log in to application</h1>
             <form onSubmit={onSubmit}>
                 <div>
                     username
@@ -25,3 +26,5 @@ const loginForm = ({ username, password, onSubmit, setUsername, setPassword }) =
         </>
     )
 }
+
+export default LoginForm

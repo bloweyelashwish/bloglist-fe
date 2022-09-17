@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react'
 import Blog from './components/Blog'
-import blogService from './services/blogs'
-import loginService from "./services/login";
+import { getAll } from './services/blogs'
+import { login } from "./services/login";
+import LoginForm from "./components/LoginForm";
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -13,53 +14,41 @@ const App = () => {
     event.preventDefault()
     console.log('logging in with', username, password)
     try {
-        const user = await loginService.login({ username, password })
+        const user = await login({ username, password })
         setUser(user)
         setUsername('')
         setPassword('')
     } catch (exception) {
+        alert('Wrong credentials')
         console.log(exception)
     }
   }
 
   useEffect(() => {
-    blogService.getAll().then(blogs =>
+    getAll().then(blogs =>
       setBlogs( blogs )
-    )  
+    )
   }, [])
 
+    if (user) {
+        return (
+            <div>
+                <h2>blogs</h2>
+                {blogs.map(blog =>
+                    <Blog key={blog.id} blog={blog} />
+                )}
+            </div>
+        )
+    }
+
   return (
-    <div>
-      <>
-      <form onSubmit={handleLogin}>
-        <div>
-          username
-            <input
-                type="text"
-                value={username}
-                name="Username"
-                onChange={({ target }) => setUsername(target.value)}
-            />
-        </div>
-          <div>
-              password
-              <input
-                type="password"
-                value={password}
-                name="Password"
-                onChange={({ target }) => setPassword(target.value)}
-              />
-          </div>
-          <button type="submit">login</button>
-      </form>
-      </>
-
-
-      <h2>blogs</h2>
-      {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
-      )}
-    </div>
+    <LoginForm
+        onSubmit={handleLogin}
+        username={username}
+        setUsername={setUsername}
+        password={password}
+        setPassword={setPassword}
+    />
   )
 }
 
