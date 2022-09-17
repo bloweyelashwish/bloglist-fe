@@ -1,0 +1,16 @@
+#notification {
+    padding: 1em 3em;
+    font-size: 25px;
+}
+
+#notification.error {
+    background-color: indianred;
+    border: 1px solid darkred;
+    color: darkred;
+}
+
+#notification.success {
+    background-color: lightgreen;
+    border: 1px solid darkgreen;
+    color: darkgreen;
+}
