@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import Blog from './components/Blog'
-import { getAll } from './services/blogs'
+import { getAll, setToken } from './services/blogs'
 import { login } from "./services/login";
 import LoginForm from "./components/LoginForm";
 
@@ -15,6 +15,9 @@ const App = () => {
     console.log('logging in with', username, password)
     try {
         const user = await login({ username, password })
+
+        window.localStorage.setItem('loggedBlogAppUser', JSON.stringify(user))
+        setToken(user.token)
         setUser(user)
         setUsername('')
         setPassword('')
@@ -29,6 +32,16 @@ const App = () => {
       setBlogs( blogs )
     )
   }, [])
+
+    useEffect(() => {
+        const loggedUser = window.localStorage.getItem('loggedBlogAppUser')
+
+        if (loggedUser) {
+            const user = JSON.parse(loggedUser)
+            setUser(user)
+            setToken(user.token)
+        }
+    }, [])
 
     if (user) {
         return (
