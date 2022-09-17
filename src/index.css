@@ -14,3 +14,14 @@
     border: 1px solid darkgreen;
     color: darkgreen;
 }
+
+.blog {
+    border: 1px solid black;
+    padding: 1em;
+    font-size: 15px;
+    font-family: sans-serif;
+}
+
+.blogViewToggle {
+    margin-inline: 1em;
+}

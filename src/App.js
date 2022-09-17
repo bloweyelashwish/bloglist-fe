@@ -1,12 +1,11 @@
 import { useState, useEffect, useRef } from 'react'
 import Blog from './components/Blog'
-import { getAll, create, setToken } from './services/blogs'
+import { getAll, create, update, setToken } from './services/blogs'
 import { login } from "./services/login";
 import LoginForm from "./components/LoginForm";
 import BlogForm from "./components/BlogForm";
 import Notification from "./components/Notification";
 import Togglable from "./components/Togglable";
-import blogForm from "./components/BlogForm";
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -58,6 +57,18 @@ const App = () => {
       }
   }
 
+  const updateBlog = async (toUpd) => {
+      try {
+          const response = await update(toUpd.id, toUpd)
+          console.log(response)
+          setBlogs(blogs.map(b => b.id === response.id ? response : b)) // update blog id
+          setNotification({ message: `Blog ${response.title} updated`, type: 'success' })
+
+      } catch (exception) {
+          setNotification({ message: `Could not update blog`, type: 'error' })
+      }
+  }
+
   useEffect(() => {
     getAll().then(blogs =>
       setBlogs( blogs )
@@ -88,7 +99,7 @@ const App = () => {
                 </Togglable>
                 <hr/>
                 {blogs.map(blog =>
-                    <Blog key={blog.id} blog={blog} />
+                    <Blog key={blog.id} blog={blog} updateBlog={updateBlog} />
                 )}
             </div>
         )
