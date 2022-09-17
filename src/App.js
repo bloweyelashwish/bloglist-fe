@@ -14,12 +14,6 @@ const App = () => {
   const [user, setUser] = useState(null)
     const [notification, setNotification] = useState({ message: '', type: '' })
 
-
-  //  blog
-    const [title, setTitle] = useState('')
-    const [author, setAuthor] = useState('')
-    const [url, setUrl] = useState('')
-
     const clearNotification = () => {
         setTimeout(() => setNotification({ message: '', type: '' }), 5000)
     }
@@ -48,30 +42,17 @@ const App = () => {
       setUser('')
   }
 
-  const handleBlogCreation = async (event) => {
-      event.preventDefault()
-
-      const blog = {
-          title,
-          author,
-          url
-      }
-
+  const handleBlogCreation = async (blog) => {
+    console.log(blog)
       try {
           const newBlog = await create(blog)
           setBlogs(blogs.concat(newBlog))
-          setNotification({ message: `${newBlog.title} is added to the list`, type: 'error'})
-          setTitle('')
-          setAuthor('')
-          setUrl('')
+          setNotification({ message: `${newBlog.title} is added to the list`, type: 'success'})
           const clearNotification = () => {
               setTimeout(() => setNotification({ message: '', type: '' }), 5000)
           }
       } catch {
           setNotification({ message: `Error`, type: 'error'})
-          setTitle('')
-          setAuthor('')
-          setUrl('')
           clearNotification()
       }
   }
@@ -102,12 +83,6 @@ const App = () => {
                 <Togglable buttonLabel='new note'>
                     <BlogForm
                         onSubmit={handleBlogCreation}
-                        title={title}
-                        setTitle={setTitle}
-                        author={author}
-                        setAuthor={setAuthor}
-                        url={url}
-                        setUrl={setUrl}
                     />
                 </Togglable>
                 <hr/>
