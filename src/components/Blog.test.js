@@ -63,4 +63,3 @@ describe('testing form for data correctness', () => {
         expect(onSubmit.mock.calls[0][0].url).toBe('url link')
     })
 })
-

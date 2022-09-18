@@ -104,7 +104,7 @@ const App = () => {
         return (
             <div>
                 <h2>blogs</h2>
-                <h3>{user.name} is logged in <button onClick={handleLogout}>log out</button></h3>
+                <h3>{user.name} is logged in <button id='logout-btn' onClick={handleLogout}>log out</button></h3>
                 <Notification notification={notification}/>
                 <hr/>
                 <Togglable buttonLabel='new note' ref={blogFormRef}>
