@@ -1,8 +1,8 @@
 import { useState } from "react"
 
-const Blog = ({ blog, updateBlog, removeBlog }) => {
+const Blog = ({ blog, updateBlog, removeBlog, user }) => {
   const [infoVisible, setInfoVisible] = useState(false)
-    const showInfoStyle = { display: infoVisible ? '' : 'none' }
+    // const showInfoStyle = { display: infoVisible ? '' : 'none' }
     const handleClick = () => {
         console.log('click')
     }
@@ -19,19 +19,27 @@ const Blog = ({ blog, updateBlog, removeBlog }) => {
     return (
         <div className='blog'>
             <div>
-                <h4>{blog.title} {blog.author}
+                <h3>{blog.title}</h3>
+                <h4><em>{blog.author}</em></h4>
                 <button className='blogViewToggle' onClick={toggleInfoVisibility}>{ infoVisible? 'hide' : 'view' }</button>
-                </h4>
             </div>
-            <div style={showInfoStyle}>
-                <p>{blog.url}</p>
-                <p>
-                    {blog.likes}
-                    <button onClick={handleLike}>like</button>
-                </p>
-                <p>{blog.user?.name}</p>
-                <button onClick={() => removeBlog(blog)}>remove</button>
-            </div>
+            { infoVisible ?
+
+                <div>
+                    <p>{blog.url}</p>
+                    <p>
+                        {blog.likes}
+                        <button onClick={handleLike}>like</button>
+                    </p>
+                    <p>{blog.user.name}</p>
+                    {blog.user.username === user.username ?
+                        <button onClick={() => removeBlog(blog)}>remove</button>
+                        : null
+                    }
+                </div>
+
+                : null
+            }
         </div>
   )
 }

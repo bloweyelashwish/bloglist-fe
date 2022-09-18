@@ -115,7 +115,7 @@ const App = () => {
                 <hr/>
                 {blogs
                     .sort((a, b) => b.likes - a.likes)
-                    .map(blog => <Blog key={blog.id} blog={blog} updateBlog={updateBlog} removeBlog={removeBlog}/>)
+                    .map(blog => <Blog key={blog.id} blog={blog} updateBlog={updateBlog} removeBlog={removeBlog} user={user}/>)
                 }
             </div>
         )
