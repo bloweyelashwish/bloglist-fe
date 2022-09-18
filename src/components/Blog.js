@@ -3,9 +3,6 @@ import { useState } from "react"
 const Blog = ({ blog, updateBlog, removeBlog, user }) => {
   const [infoVisible, setInfoVisible] = useState(false)
     // const showInfoStyle = { display: infoVisible ? '' : 'none' }
-    const handleClick = () => {
-        console.log('click')
-    }
     const toggleInfoVisibility = () => {
       setInfoVisible(!infoVisible)
     }
