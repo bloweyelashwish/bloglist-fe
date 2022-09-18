@@ -2,6 +2,7 @@ import React from 'react'
 import '@testing-library/jest-dom/extend-expect'
 import { render, screen } from '@testing-library/react'
 import Blog from './Blog'
+import userEvent from '@testing-library/user-event'
 
 const user = {
     name: 'Anthony',
@@ -25,5 +26,17 @@ describe('testing component render', () => {
         // expect(screen.queryByText('react-testing.com')).not.toBeInTheDocument()
         // expect(screen.queryByText('10')).not.toBeInTheDocument()
         expect(screen.queryByText('Anthony')).not.toBeInTheDocument()
+    })
+})
+
+describe('testing component render with events', () => {
+    test('content is shown when the button is clicked', async () => {
+        const rendered = render(<Blog blog={blog} user={user} updateBlog={() => {}} removeBlog={() => {}} />)
+        const client = userEvent.setup()
+        const button = screen.getByText('view')
+        await client.click(button)
+
+        expect(screen.getByText('like')).toBeInTheDocument()
+        expect(screen.getByText('react-testing.com')).toBeInTheDocument()
     })
 })

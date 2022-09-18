@@ -24,8 +24,7 @@ const Blog = ({ blog, updateBlog, removeBlog, user }) => {
                 <button className='blogViewToggle' onClick={toggleInfoVisibility}>{ infoVisible? 'hide' : 'view' }</button>
             </div>
             { infoVisible ?
-
-                <div>
+                <div className="toggableContent">
                     <p>{blog.url}</p>
                     <p>
                         {blog.likes}
