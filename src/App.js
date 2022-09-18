@@ -102,7 +102,7 @@ const App = () => {
 
     if (user) {
         return (
-            <div id='blogList'>
+            <div>
                 <h2>blogs</h2>
                 <h3>{user.name} is logged in <button id='logout-btn' onClick={handleLogout}>log out</button></h3>
                 <Notification notification={notification}/>
@@ -113,10 +113,12 @@ const App = () => {
                     />
                 </Togglable>
                 <hr/>
-                {blogs
-                    .sort((a, b) => b.likes - a.likes)
-                    .map(blog => <Blog key={blog.id} blog={blog} updateBlog={updateBlog} removeBlog={removeBlog} user={user}/>)
-                }
+                <div id='blogList'>
+                    {blogs
+                        .sort((a, b) => b.likes - a.likes)
+                        .map(blog => <Blog className="blog" key={blog.id} blog={blog} updateBlog={updateBlog} removeBlog={removeBlog} user={user}/>)
+                    }
+                </div>
             </div>
         )
     }

@@ -36,6 +36,18 @@ describe('Blog app', function() {
             cy.get('#input-author').type('author')
             cy.get('#input-url').type('url')
             cy.contains('create').click()
+
+            cy.contains('new note').click()
+            cy.get('#input-title').type('post1')
+            cy.get('#input-author').type('author1')
+            cy.get('#input-url').type('url')
+            cy.contains('create').click()
+
+            cy.contains('new note').click()
+            cy.get('#input-title').type('post2')
+            cy.get('#input-author').type('author2')
+            cy.get('#input-url').type('url')
+            cy.contains('create').click()
         })
 
         it('A blog can be created', function() {
@@ -60,16 +72,36 @@ describe('Blog app', function() {
             cy.contains('likes:1')
         })
 
-        it.only('some random cannot delete the post', function () {
-            const user = {
-                name: "Another User",
-                username: "another",
-                password: "lol",
-            }
-            cy.request("POST", "http://localhost:3002/api/users/", user)
-            cy.login({ username: "another", password: "lol" })
-            cy.contains("view").click()
-            cy.get("#blogList").should("not.contain", "remove")
+        // it('some random cannot delete the post', function () {
+        //     const user = {
+        //         name: "Another User",
+        //         username: "another",
+        //         password: "lol",
+        //     }
+        //     cy.request("POST", "http://localhost:3002/api/users/", user)
+        //     cy.login({ username: "another", password: "lol" })
+        //     cy.contains("view").click()
+        //     cy.get("#blogList").should("not.contain", "remove")
+        // })
+
+        it.only('check if sorted', function () {
+            cy.get('.blog').eq(0).contains('view').click()
+            cy.get('.blog').eq(1).contains('view').click()
+
+
+            cy.get('.blog').eq(0).contains('like').click()
+            cy.get(".blog").eq(0).should("contain", "likes:1")
+            cy.get('.blog').eq(0).contains('like').click()
+            cy.get(".blog").eq(0).should("contain", "likes:2")
+
+            cy.get('.blog').eq(1).contains('like').click()
+            cy.get('.blog').eq(1).should("contain", "likes:1")
+            cy.get('.blog').eq(1).contains('like').click()
+            cy.get('.blog').eq(1).should("contain", "likes:2")
+            cy.get('.blog').eq(1).contains('like').click()
+            cy.get('.blog').eq(1).should("contain", "likes:3")
+
+
         })
     })
 
