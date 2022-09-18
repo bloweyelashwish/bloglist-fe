@@ -102,7 +102,7 @@ const App = () => {
 
     if (user) {
         return (
-            <div>
+            <div id='blogList'>
                 <h2>blogs</h2>
                 <h3>{user.name} is logged in <button id='logout-btn' onClick={handleLogout}>log out</button></h3>
                 <Notification notification={notification}/>

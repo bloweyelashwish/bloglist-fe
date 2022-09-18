@@ -31,6 +31,11 @@ describe('Blog app', function() {
     describe('when logged in', function() {
         beforeEach(function() {
             cy.login({ username: 'testusername', password: 'test' })
+            cy.contains('new note').click()
+            cy.get('#input-title').type('post')
+            cy.get('#input-author').type('author')
+            cy.get('#input-url').type('url')
+            cy.contains('create').click()
         })
 
         it('A blog can be created', function() {
@@ -52,6 +57,19 @@ describe('Blog app', function() {
 
             cy.contains('view').click()
             cy.contains('like').click()
+            cy.contains('likes:1')
+        })
+
+        it.only('some random cannot delete the post', function () {
+            const user = {
+                name: "Another User",
+                username: "another",
+                password: "lol",
+            }
+            cy.request("POST", "http://localhost:3002/api/users/", user)
+            cy.login({ username: "another", password: "lol" })
+            cy.contains("view").click()
+            cy.get("#blogList").should("not.contain", "remove")
         })
     })
 

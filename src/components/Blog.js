@@ -24,12 +24,13 @@ const Blog = ({ blog, updateBlog, removeBlog, user }) => {
                 <div className="toggableContent">
                     <p>{blog.url}</p>
                     <p className='#likes'>
+                        likes:
                         {blog.likes}
                         <button onClick={handleLike}>like</button>
                     </p>
                     <p>{blog.user.name}</p>
                     {blog.user.username === user.username ?
-                        <button onClick={() => removeBlog(blog)}>remove</button>
+                        <button id='removeblog' onClick={() => removeBlog(blog)}>remove</button>
                         : null
                     }
                 </div>
