@@ -39,6 +39,19 @@ describe('Blog app', function() {
             cy.get('#input-author').type('author with cypress')
             cy.get('#input-url').type('url with cypress')
             cy.contains('create').click()
+
+            cy.contains("title with cypress")
+        })
+
+        it('a blog can be liked', function () {
+            cy.contains('new note').click()
+            cy.get('#input-title').type('title with cypress')
+            cy.get('#input-author').type('author with cypress')
+            cy.get('#input-url').type('url with cypress')
+            cy.contains('create').click()
+
+            cy.contains('view').click()
+            cy.contains('like').click()
         })
     })
 

@@ -23,7 +23,7 @@ const Blog = ({ blog, updateBlog, removeBlog, user }) => {
             { infoVisible ?
                 <div className="toggableContent">
                     <p>{blog.url}</p>
-                    <p>
+                    <p className='#likes'>
                         {blog.likes}
                         <button onClick={handleLike}>like</button>
                     </p>
